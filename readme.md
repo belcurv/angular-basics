@@ -227,3 +227,71 @@ Or angular-resource.js (module name: ngResource).  The ngResource module gives u
         // code here
     });
 ```
+
+### Arrays and Functions
+
+Javascript arrays are a little strange - you can mix types inside arrays.  For example, you can have strings and numbers:
+
+    var things = [1, '2', 3];
+
+Can also put functions inside arrays:
+
+    var things = [1, '2', function() {
+        alert('Hello!');
+    }];
+
+You can call the function thusly:
+
+    var things = [1, '2', function() {
+        alert('Hello!');
+    }];
+    
+    things[2]();
+
+### Dependency Injection and Minification
+
+A minifier will remove whitespace and line breaks, and replace variable names with single-letters.  This can break Angular's dependency injection.  Example:
+
+
+```
+    myApp.controller('mainController', function ($scope, $log) {
+
+        $log.info($scope);
+
+    });
+```
+
+Becomes...
+
+```
+    myApp.controller('mainController',function(a,b){b.info(a)});
+```
+
+Which breaks Angular because 'a' and 'b' are not defined Angular.  So, there's another way to inject dependencies.  Should use this method.  Pass an ARRAY:
+
+```
+    myApp.controller('mainController', ['$scope', '$log', function ($scope, $log) {
+
+        $log.info($scope);
+
+    }]);
+```
+
+The last element in the array should always be the function that defines the array, and whatever comes before should be whatever paramters are supposed to get passed to the function.
+
+This works because javascript arrays can contain multiple different types, and **a minifier will never change the contents of a string**.  Minifying the above results in:
+
+```
+    myApp.controller('mainController',["$scope","$log",function(a,b){b.info(a)}]);
+```
+
+The function arguments became a and b, but that's ok because they just get $scope and $log, **in that order**.  The order is critical when using this array injection method.  The paramters injected in the array have to be the same parameters in the same order in the function.
+
+### Scope and Interpolation
+
+Interpolation: creating a string by combining strings and placeholders.  'My name is' + name is interpolated, and results in 'My name is Tony', for example.
+
+In jQuery, our app would have to find the correct html element, adjust the innerHtml or innerText, etc. and manually change it.
+
+In angular we can use {{ variable }} in combination with $scope.variable
+
