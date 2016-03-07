@@ -295,3 +295,51 @@ In jQuery, our app would have to find the correct html element, adjust the inner
 
 In angular we can use {{ variable }} in combination with $scope.variable
 
+### The Event Loop
+
+With jQuery or raw javascript, you're manually attaching code to events and waiting for them to occur (by adding listeners to the always-running javascript event loop).  For example, using raw javascript, this listens for keypresses in a textbox with the id "name":
+
+```
+    var tb = document.getElementById("name");
+    
+    tb.addEventListener("keypress", function(event) {
+        console.log("Pressed!");
+    });
+```
+
+The textbox throws an event, and because app.js is listening for it, it logs "Pressed!" for every keypress.
+
+AngularJS takes advantage of those events to keep track of things for you:
+
+### Watchers and the Digest Loop
+
+This is specific to how Angular binds the model to the view.  Angular adds listeners for you, extending the event loop.  The event loop is native to the browser.  Angular adds on the **Angular Context**: everything we've built in our app that conforms to the AngularJS architecture.  Attaching variables to $scope and placing them on a page, Angular automatically adds **watchers** to a watch list.  It tracks the old value and the new value, checking for changes.
+
+Angular has its own loop: the Digest Loop.  It goes through everythig in the watch list and asks, "has anything changed"?  If something has, it updates that thing everywhere it's affected in the model and views.
+
+The digest loop is the reason why ng-model can "real-time" update the DOM as text gets added to an input.  The digest loop cycles for each letter keypress and updates the watchlist, and thus also updates the DOM.  This is what glues the view to the model.  It's what makes AngularJS so powerful and allows us to make interactive websites so quickly.
+
+Again, this only applies within the Angular context.  Here's code that will not start a digest loop:
+
+
+```
+    setTimeout(function() {
+        $scope.handle = 'newtwitterhandle';
+        console.log('Scope changed!');
+    }, 3000);
+```
+
+That **will** log 'Scope changed!' to the console, but it won't update the DOM because Angular isn't watching setTimeout.  We have to manually add it to the digest loop.  To do this, we use $scope.$apply.  Meaning, apply what I'm about to put in here to the Angular context.  You pass $apply a function and whatever you want to do inside the function 
+
+```
+    setTimeout(function() {
+    
+        $scope.$apply(function() {
+            $scope.handle = 'newtwitterhandle';
+            console.log('Scope changed!');
+        });
+    
+    }, 3000);
+```
+
+How do I know when to call .$apply ?  Most Angular services call $apply behind the scenes.
