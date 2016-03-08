@@ -45,3 +45,58 @@ myApp.controller('mainController', ['$scope', '$filter', function($scope, $filte
 ```
 <h1>twitter.com/{{ lowercaseHandle() }}</h1>
 ```
+
+### Common Directives
+
+**ng-model:** Two-way data binding.
+
+**ng-if:** tells the DOM what to do under certain circumstances.  Depends on truthyness of a javascript expression in the view.  Example:
+
+```
+    <div class="alert" ng-if="handle.length !== characters">
+        Must be 5 characters!
+    </div>
+```
+
+**ng-show:** Displays a DOM element if some expression is true.  When it's not, Angular toggles ng-hide in the DOM which sets a CSS property: _display: none;_  The inverse is ng-hide...
+
+**ng-hide:** Hides a DOM element if some expression is true.  Modifying our example above:
+
+```
+    <div class="alert" ng-hide="handle.length === 5">
+        Must be 5 characters!
+    </div>
+```
+
+**ng-class:** gets a JSON object.  Takes the name of a CSS class, and the value which is a javascript expression. Example:
+
+```
+    <div class="alert" ng-class="{ 'alert-warning': handle.length < characters }"
+        ng-hide="handle.length === 5">
+```
+
+You can also nest these:
+
+```
+    <div class="alert" ng-class="{ 'alert-warning': handle.length < characters, 'alert-danger': handle.length > characters }" ng-show="handle.length !== characters">
+                    
+        <div ng-show="handle.length < characters">
+            You have less than 5 characters!
+        </div>
+        <div ng-show="handle.length > characters">
+            You have more than 5 characters!
+        </div>
+    </div>
+```
+
+**ng-repeat:** This is basically a _for-in_ javascript loop. It repeats the hosting element for each item in the array.  For example, the following repeats the <li> element for each rule in the rules array.  'rule' is just a locally created variable for the sake of ng-repeat.
+
+```
+    <ul>
+        <li ng-repeat="rule in rules">
+            {{ rule.rulename }}
+        </li>
+    </ul>
+```
+
+

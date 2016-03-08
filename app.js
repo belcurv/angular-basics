@@ -12,21 +12,13 @@ myApp.controller('mainController', ['$scope', '$filter', function($scope, $filte
         return $filter('lowercase')($scope.handle);
     };
     
-    $scope.$watch('handle', function(newValue, oldValue) {
-        
-        console.info('Changed!');
-        console.log('Old: ' + oldValue);
-        console.log('New: ' + newValue);
-        
-    });
+    // what if we want our twitter handle to be exactly 5 characters?
+    $scope.characters = 5;
     
-    setTimeout(function() {
-    
-        $scope.$apply(function() {  // .$apply adds this code to the digest cycle / watch list
-            $scope.handle = 'newtwitterhandle';
-            console.log('Scope changed!');
-        });
-    
-    }, 3000);
+    $scope.rules = [
+        { rulename: "Must be 5 characters" },
+        { rulename: "Must not be used elsewhere" },
+        { rulename: "Must be cool" }
+    ];
     
 }]);
