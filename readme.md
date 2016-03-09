@@ -171,7 +171,7 @@ Now, if $scope happens to be one of those arguments, angular parses it, and reco
     
 Outputs: ``["$scope", "lastname", "height", "age", "occupation"]``
 
-### Getting Other Services
+## Getting Other Services
 
 There's a whole ecosystem of services (other code) available by injecting it into our controllers.  It's injectable; not dependent upon how it was created.
 
@@ -228,7 +228,7 @@ Or angular-resource.js (module name: ngResource).  The ngResource module gives u
     });
 ```
 
-### Arrays and Functions
+## Arrays and Functions
 
 Javascript arrays are a little strange - you can mix types inside arrays.  For example, you can have strings and numbers:
 
@@ -248,7 +248,7 @@ You can call the function thusly:
     
     things[2]();
 
-### Dependency Injection and Minification
+## Dependency Injection and Minification
 
 A minifier will remove whitespace and line breaks, and replace variable names with single-letters.  This can break Angular's dependency injection.  Example:
 
@@ -287,7 +287,7 @@ This works because javascript arrays can contain multiple different types, and *
 
 The function arguments became a and b, but that's ok because they just get $scope and $log, **in that order**.  The order is critical when using this array injection method.  The paramters injected in the array have to be the same parameters in the same order in the function.
 
-### Scope and Interpolation
+## Scope and Interpolation
 
 Interpolation: creating a string by combining strings and placeholders.  'My name is' + name is interpolated, and results in 'My name is Tony', for example.
 
@@ -295,7 +295,7 @@ In jQuery, our app would have to find the correct html element, adjust the inner
 
 In angular we can use {{ variable }} in combination with $scope.variable
 
-### The Event Loop
+## The Event Loop
 
 With jQuery or raw javascript, you're manually attaching code to events and waiting for them to occur (by adding listeners to the always-running javascript event loop).  For example, using raw javascript, this listens for keypresses in a textbox with the id "name":
 
@@ -311,7 +311,7 @@ The textbox throws an event, and because app.js is listening for it, it logs "Pr
 
 AngularJS takes advantage of those events to keep track of things for you:
 
-### Watchers and the Digest Loop
+## Watchers and the Digest Loop
 
 This is specific to how Angular binds the model to the view.  Angular adds listeners for you, extending the event loop.  The event loop is native to the browser.  Angular adds on the **Angular Context**: everything we've built in our app that conforms to the AngularJS architecture.  Attaching variables to $scope and placing them on a page, Angular automatically adds **watchers** to a watch list.  It tracks the old value and the new value, checking for changes.
 

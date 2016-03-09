@@ -1,4 +1,4 @@
-### Directives and Two Way Data Binding
+## Directives and Two Way Data Binding
 
 Directive: An instrution to AngularJS to manipulate a piece of the DOM.  This could be 'ADD A CLASS', 'HIDE THIS', 'CREATE THIS', etc.
 
@@ -46,7 +46,9 @@ myApp.controller('mainController', ['$scope', '$filter', function($scope, $filte
 <h1>twitter.com/{{ lowercaseHandle() }}</h1>
 ```
 
-### Common Directives
+## Common Directives
+
+**See all of them here:** [**Angular API Reference**](https://docs.angularjs.org/api).
 
 **ng-model:** Two-way data binding.
 
@@ -99,4 +101,18 @@ You can also nest these:
     </ul>
 ```
 
+**ng-click:** Takes a function that we have on the $scope and responds to the click:
 
+```
+    (in the view)
+    <input type="button" value="Click me" ng-click="alertClick()" />
+
+    (in the app)
+    $scope.alertClick = function() {
+        alert("Clicked!";)
+    };
+```
+
+**ng-cloak:** Hides rendered page element until Angular is done working on it;
+
+`` <div ng-cloak> {{ name }} </div> ``
