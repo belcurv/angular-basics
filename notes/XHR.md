@@ -6,7 +6,7 @@ XMLHTTPRequest was invented by MS; way ahead of its time.  An object that could 
 
 Jquery and Angular have wrappers for it, but this is how it looks in the raw (assuming there's a database backend located at http://localhost:54765/api):
 
-```
+```javascript
 // define it
 var rulesrequest = new XMLHttpRequest();
 rulesrequest.onreadystatechange = function () {
@@ -39,13 +39,13 @@ rulesrequest.send();
 
 Getting and sending data the angular way.  Inject the service first:
 
-```
+```javascript
 myApp.controller('mainController', ['$scope', '$filter', '$http', function($scope, $filter, $http) {...};
 ```
 
 Then use it:
 
-```
+```javascript
 $http.get('/api')
     .success(function(result) {
         $scope.rules = result;
@@ -59,7 +59,7 @@ In the above, the .get method has a few methods of its own (.success and .error)
 
 Sending data is similar.  the .post method takes a destination URI as well as the data payload in the form of an object:
 
-```
+```javascript
 $scope.newRule = ''
 $scope.addRule = function () {
 
