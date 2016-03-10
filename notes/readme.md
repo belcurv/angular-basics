@@ -28,7 +28,7 @@ What problem is Angular trying to solve?  Look at example jQuery:
     
 That doesn't look too bad, but what it there were 20 steps?  Or special business logic?  The problem is we spend a ton of time tracking DOM elements, js variables, and manipulating the DOM.  After a while this gets overwhelming to maintain.
 
-** DOM: the representation of the HTML that sits in the browser's memory **
+**DOM: the representation of the HTML that sits in the browser's memory**
 
 Angular is a framework that tries to solve this problem: manually maintaining the business logic, the DOM, and the variables & data.
 
@@ -44,13 +44,13 @@ The model is your data, the view is the DOM presented to the user.  The whatever
 
 ## HTML Aside
 
-** Custom Attributes **
+**Custom Attributes**
 
 HTML5 compliance requires data- prefixes on custom attributes.  So, ng-repeat should actually be data-ng-repeat.
 
 ## Javascript Aside
 
-** The Global Namespace
+**The Global Namespace**
 
 Don't pollute the gloabl namespace.  Namespace everything!  Or stick everything in containers.  for example, instead of:
 
