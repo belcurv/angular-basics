@@ -205,18 +205,18 @@ See [Angular.js API reference](https://docs.angularjs.org/api); scroll down to s
 For example, the $http service.  Or $log:
 
 ```javascript
-    myApp.controller('mainController', function ($scope, $log) {
-        $log.log('Hello');
-        $log.info("This is some information");
-        $log.warn("Warning!");
-        $log.debug("Some debug information");
-        $log.error("This was an error!");
-    };
+myApp.controller('mainController', function ($scope, $log) {
+    $log.log('Hello');
+    $log.info("This is some information");
+    $log.warn("Warning!");
+    $log.debug("Some debug information");
+    $log.error("This was an error!");
+};
 ```
 
 More services are available from the Angular distrbution sources.  You can find the in the download section at angularjs.org.  For example, the 1.5.0 branch is [here](https://code.angularjs.org/1.5.0/).
 
-You'll see all kinds of files.  For example, angular-messages.js, which provides some quick and easy form validation.  Copy it's URL into a new <script> tag, and that service is available to us. But not immediately.  First, we have to find the module's name (above is ngMessages).  The module name is inside the javascript.  The module is injected into the main angular.module array:
+You'll see all kinds of files.  For example, angular-messages.js, which provides some quick and easy form validation.  Copy it's URL into a new `<script>` tag, and that service is available to us. But not immediately.  First, we have to find the module's name (above is ngMessages).  The module name is inside the javascript.  The module is injected into the main angular.module array:
 
 ```javascript
 var myApp = angular.module('myApp', ['inject here']);
