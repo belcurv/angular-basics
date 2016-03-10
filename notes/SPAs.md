@@ -34,15 +34,15 @@ It's not really a folder hierarchy, but we can pretend that it means something. 
 ```javascript
 window.addEventListener('hashchange', function () {
 
-    if (window.location.hash === '#/bookmark/1) {
+    if (window.location.hash === '#/bookmark/1') {
         console.log('Page 1 is cool.');
     }
     
-    if (window.location.hash === '#/bookmark/2) {
+    if (window.location.hash === '#/bookmark/2') {
         console.log('Let me go get Page 2.');
     }
     
-    if (window.location.hash === '#/bookmark/3) {
+    if (window.location.hash === '#/bookmark/3') {
         console.log('Here\'s page 3.');
     }
 
