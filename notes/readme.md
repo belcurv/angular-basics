@@ -376,3 +376,23 @@ setTimeout(function() {
 ```
 
 How do I know when to call .$apply ?  Most Angular services call $apply behind the scenes.
+
+## Angular Aside - Multiple Controllers, Multiple Views
+
+You can have as many model-view connections as you want (ie, as many controllers as you want).  A server could look like this:
+
+```javascript
+var myApp = angular.module('myApp', []);
+
+myApp.controller('mainController', ['$scope', function ($scope) {
+    $scope.name = 'Main';
+}]);
+
+myApp.controller('secondController', ['$scope', function ($scope) {
+    $scope.name = 'Second';
+}]);
+```
+
+Connect mainController and secondController to separate sections of the DOM, and each is controlled independently.  **The $scope object injected into each controller is unique** - each is a new _instance_ of the $scope object.
+
+This is a fundamental concept to understanding how Angular implements Single Page Applications.
