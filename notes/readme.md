@@ -133,7 +133,8 @@ In the 2nd example, logPerson doesn't care how 'john' is created, it just needs 
 
 ## The Scope Service
 
-All Angular services start with a $.  ** $scope is a core Angular service and an object.**  We can add variables and functions to the $scope object:
+All Angular services start with a $.  **$scope is a core Angular service and an object.**  We can add variables and functions to the $scope object:
+All Angular services start with a $.  **$scope is a core Angular service and an object.**  We can add variables and functions to the $scope object:
 
     $scope.name = 'Jay';
     $scope.occupation = 'Coder';
@@ -175,7 +176,7 @@ Outputs: ``["$scope", "lastname", "height", "age", "occupation"]``
 
 There's a whole ecosystem of services (other code) available by injecting it into our controllers.  It's injectable; not dependent upon how it was created.
 
-** What comes with Angular itself?
+**What comes with Angular itself?**
 
 See [Angular.js API reference](https://docs.angularjs.org/api); scroll down to services.
 
