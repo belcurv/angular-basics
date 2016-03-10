@@ -1,46 +1,66 @@
-/*
- * app.js
-*/
+var myApp = angular.module('myApp', ['ngRoute']);
 
-var myApp = angular.module('myApp', []);
+myApp.config(function ($routeProvider) {
 
-myApp.controller('mainController', ['$scope', '$filter', '$http', function($scope, $filter, $http) {
+    $routeProvider
     
-    $scope.handle = '';
-    
-    $scope.lowercaseHandle = function() {
-        return $filter('lowercase')($scope.handle);
-    };
-    
-    // what if we want our twitter handle to be exactly 5 characters?
-    $scope.characters = 5;
-    
-
-    // send a GET request to /api, which returns a JSON object.
-    // the JSON object is stored as 'result', which we then use to populate
-    //   $scope.rules.  $scope.rules, in turn is used by the DOM in the <ul> loop.
-    $http.get('/api')
-        .success(function (result) {
-            $scope.rules = result;
+        .when('/', {
+            templateUrl: 'pages/main.html',
+            controller : 'mainController'
         })
-        .error(function (data, status) {
-            console.log(data);
+    
+        .when('/second', {
+            templateUrl: 'pages/second.html',
+            controller : 'secondController'
+        })
+
+        .when('/second/:num', {
+            templateUrl: 'pages/second.html',
+            controller : 'secondController'
         });
     
-    // POST
-    $scope.newRule = '';
-    $scope.addRule = function () {
-        $http.post('/api', { RuleName: $scope.newRule })
-        
-            .success(function (result) {
-                console.log(result);
-                $scope.rules = result;
-                $scope.newRule = '';
-            })
-            .error(function (data, status) {
-                console.log(data);
-            });
-    }
+});
+
+myApp.service('nameService', function () {
+
+    var self = this;   // trick to reference the outer 'this' inside nameLength method
+    this.name = 'John Doe';
     
+    this.nameLength = function () {
+    
+        return self.name.length;
+    
+    };
+
+});
+
+myApp.controller('mainController', ['$scope', '$log', 'nameService', function ($scope, $log, nameService) {
+    
+    $scope.name = nameService.name;
+    
+    // if we need to update a value in a singleton whenever the value changes in the scope,
+    // we have to do it manually - Angular can't to everything for us.
+    // Have to watch Angular's digest loop for the change, and then update the service value.
+    $scope.$watch('name', function () {
+        nameService.name = $scope.name;
+    });
+    
+    $log.log(nameService.name);
+    $log.log(nameService.nameLength());
+    
+}]);
+
+myApp.controller('secondController', ['$scope', '$log', '$routeParams', 'nameService', function ($scope, $log, $routeParams, nameService) {
+    
+    $scope.name = nameService.name;
+    
+    // if we need to update a value in a singleton whenever the value changes in the scope,
+    // we have to do it manually - Angular can't to everything for us.
+    // Have to watch Angular's digest loop for the change, and then update the service value.
+    $scope.$watch('name', function () {
+        nameService.name = $scope.name;
+    });
+    
+    $scope.num = $routeParams.num || 'None specified';
     
 }]);
