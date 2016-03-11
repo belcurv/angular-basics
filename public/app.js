@@ -67,8 +67,8 @@ myApp.controller('secondController', ['$scope', '$log', '$routeParams', 'nameSer
 
 myApp.directive('searchResult', function() {
     return {
-        restrict: 'A',
-        template: '<a href="#" class="list-group-item"><h4 class="list-group-item-heading">Doe, John</h4><p class="list-group-item-text">555 Main St., New York NY 1111</p></a>',
+        restrict: 'AE',
+        templateUrl: 'directives/searchresult.html',
         replace: true
     }
 });
