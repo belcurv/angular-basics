@@ -48,6 +48,11 @@ myApp.controller('mainController', ['$scope', '$log', 'nameService', function ($
     $log.log(nameService.name);
     $log.log(nameService.nameLength());
     
+    $scope.person = {
+        name: 'John Doe',
+        address: '555 Main St., New York NY 11111'
+    };
+    
 }]);
 
 myApp.controller('secondController', ['$scope', '$log', '$routeParams', 'nameService', function ($scope, $log, $routeParams, nameService) {
@@ -69,6 +74,10 @@ myApp.directive('searchResult', function() {
     return {
         restrict: 'AE',
         templateUrl: 'directives/searchresult.html',
-        replace: true
+        replace: true,
+        scope: {
+            personName: "@",
+            personAddress: "@"
+        }
     }
 });

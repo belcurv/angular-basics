@@ -132,3 +132,140 @@ myApp.directive('searchResult', function() {
 
 The non-deafult values are **C** for class and **M** for comment.  These two are almost never used.
 
+Better to use templates during directive creation:
+
+```javscript
+myApp.directive('searchResult', function() {
+    return {
+        restrict: 'AE',
+        templateUrl: 'directives/searchresults.html',
+        replace: true
+    }
+});
+```
+
+## Angular Directives and Scope
+
+Specifically, `@`, `=`, and other obtuse symbols.
+
+We've seen that Angular deals with models and views and things that connect them.  For example, in our SPA we have our routes, and in our route provider we define our views (as templates) and our controllers.  And in a controller we have a model, sitting on `$scope` essentially.
+
+So for example, let's say we add a person object to the model:
+
+```javascript
+myApp.controller('mainController', ['$scope', '$log', function($scope, $log) {
+
+    $scope.person = {
+        name: 'John Doe',
+        address: '555 Main St., New York NY 11111'
+    };
+
+}]);
+```
+
+Then in main.html (because that's the view connected to this controller via our routing), we have our directives sitting there.
+
+```
+<h3>Search Results:</h3>
+<div class="list-group">
+    <search-result></search-result>
+</div>
+```
+
+What happens inside the search-result directive when it comes to the model?  The directive is part of the `main.html` template, so by default, the directive has access to anything in the model for the template that contains that directive.  in other words, the model for the directive is the same as the model for the html template that contains the directive.
+
+In our example above, since `mainController` contains a model sitting on `$scope`, we can used that object inside our `searchresults.html` directive.
+
+Instead of:
+
+```
+<a href="#" class="list-group-item">
+    <h4 class="list-group-item-heading">Doe, John</h4>
+    <p class="list-group-item-text">
+        555 Main St., New York NY 11111
+    </p>
+</a>
+```
+
+... we can access the object and its properties in the directive:
+
+```
+<a href="#" class="list-group-item">
+    <h4 class="list-group-item-heading"> {{ person.name }} </h4>
+    <p class="list-group-item-text">
+        {{ person.address }}
+    </p>
+</a>
+```
+
+Summing up: **the child directive gets access to the parent template's model**.
+
+**This is neat, but dangerous**.  It gives too much power to a directive; the directive can affect the $scope application wide.  So Angular provides a method to isolate the model part of the directive from the model for whatever part of the page contains the directive.  This is called:
+
+**Isolated Scope**
+
+We add another property to the directive when we're creating it, `scope`, which is a javascript object:
+
+```javascript
+myApp.directive('searchResult', function() {
+    return {
+        restrict: 'AE',
+        templateUrl: 'directives/searchresults.html',
+        replace: true,
+        scope: {
+            
+        }
+    }
+});
+```
+
+The `scope: {}` property disconnects the directive from its parent's $scope/model, siging it its own model. The directive can no longer be affected by, or directly affect, its parent page.  This prevents accidental things from happening when reusing the same directive across various different pages.
+
+So, what if we have things in the parent that we want to access in the directive?  Remember, with isolated scope our directive has its own scope.  Angular uses three attributes (symbols) to poke holes in the directive's isolated 'walled garden':
+
+1.  `@` - the 'at' sign means "This variable is giving you text, Mr. Directive".
+
+    If the camel cased variable is the same as the expected value, we can use the shorthand "@". Meaning: `personName: "@"` is identical to `personName: "@personName"`.
+    
+    But you could assign the variable to a different property name if you want: `personNameIsolated: "@personName"`, in which case you have to specify the text after the @ sign.
+    
+2.  `` - blah
+3.  `` - blah
+
+Say we want access to the person object we created above.  We go to the view where the directive is instantiated - in our case in _main.html_.  We add a custom attribute to the directive as it's instatiated:
+
+```
+<h3>Search Results:</h3>
+<div class="list-group">
+    <search-result person-name="{{ person.name }}" person-address="{{ person.address }}"></search-result>
+</div>
+```
+
+That person.name comes from mainController.  Then we have to modify the directive.  The view HTML attribute gets _normalized_ in the javascript directive:
+
+```javascript
+myApp.directive('searchResult', function() {
+    return {
+        restrict: 'AE',
+        templateUrl: 'directives/searchresults.html',
+        replace: true,
+        scope: {
+            personName: "@",
+            personAddress: "@"
+        }
+    }
+});
+```
+
+Now, _personName_ is available in the directive's model/scope, for a specific view. Now we change the template to accept the directive's new scope properties/variables:
+
+```
+<a href="#" class="list-group-item">
+    <h4 class="list-group-item-heading"> {{ personName }} </h4>
+    <p class="list-group-item-text">
+        {{ personAddress }}
+    </p>
+</a>
+```
+
+Summary: I had an object (person) in a model ($scope) on a controller (mainController) pointing to a view (main.html).  I was able to pass that object via a custom attribute (person-name) in the view to my directive (searchResult).  And in the directive's isolated scope, we add a property (personName) that expects that object as text ("@").  And now we use the directive's scope variable personName in the directive's template.
