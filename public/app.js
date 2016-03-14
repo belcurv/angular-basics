@@ -34,23 +34,36 @@ myApp.service('nameService', function () {
 
 });
 
-myApp.controller('mainController', ['$scope', '$log', 'nameService', function ($scope, $log, nameService) {
+myApp.controller('mainController', ['$scope', '$log', function ($scope, $log) {
     
-    $scope.name = nameService.name;
+    $scope.people = [
+        {
+            name: 'John Doe',
+            address: '555 Main St.',
+            city: 'New York',
+            state: 'NY',
+            zip: '11111'
+        },
+        {
+            name: 'Jane Doe',
+            address: '333 Second St.',
+            city: 'Buffalo',
+            state: 'NY',
+            zip: '2222'
+        },
+        {
+            name: 'George Doe',
+            address: '111 Third St.',
+            city: 'Miami',
+            state: 'FL',
+            zip: '33333'
+        }
+        ];
     
-    // if we need to update a value in a singleton whenever the value changes in the scope,
-    // we have to do it manually - Angular can't to everything for us.
-    // Have to watch Angular's digest loop for the change, and then update the service value.
-    $scope.$watch('name', function () {
-        nameService.name = $scope.name;
-    });
+    $scope.formattedAddress = function(person) {
     
-    $log.log(nameService.name);
-    $log.log(nameService.nameLength());
-    
-    $scope.person = {
-        name: 'John Doe',
-        address: '555 Main St., New York NY 11111'
+        return person.address + ', ' + person.city + ', ' + person.state + ' ' + person.zip;
+        
     };
     
 }]);
@@ -76,8 +89,21 @@ myApp.directive('searchResult', function() {
         templateUrl: 'directives/searchresult.html',
         replace: true,
         scope: {
-            personName: "@",
-            personAddress: "@"
+            personObject: "=",
+            formattedAddressFunction: "&"
+        },
+        link: function(scope, elements, attrs) {
+
+            console.log('linking...');
+            console.log(scope);   // output scope object to console
+
+            if (scope.personObject.name == 'Jane Doe') {
+                elements.removeAttr('class');
+            }
+
+            console.log(elements);
+
         }
+            
     }
 });

@@ -1,8 +1,7 @@
-<h2>This is Main</h2>
-<hr />
-<input type="text" ng-model="name" />
+<label>Search</label>
+<input type="text" ng-model="Doe" />
 
 <h3>Search Results:</h3>
 <div class="list-group">
-    <search-result person-name="{{ person.name }}" person-address="{{ person.address }}"></search-result>
+    <search-result person-object="person" formatted-address-function="formattedAddress(aperson)" ng-repeat="person in people"></search-result>
 </div>
