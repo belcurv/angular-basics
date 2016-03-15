@@ -223,14 +223,17 @@ The `scope: {}` property disconnects the directive from its parent's $scope/mode
 
 So, what if we have things in the parent that we want to access in the directive?  Remember, with isolated scope our directive has its own scope.  Angular uses three attributes (symbols) to poke holes in the directive's isolated 'walled garden':
 
-1.  `@` - the 'at' sign means "This variable is giving you text, Mr. Directive".
+1.  `@` - the 'at' sign means "This variable is giving you text, Mr. Directive".  It's a one-way binding.
 
     If the camel cased variable is the same as the expected value, we can use the shorthand "@". Meaning: `personName: "@"` is identical to `personName: "@personName"`.
     
     But you could assign the variable to a different property name if you want: `personNameIsolated: "@personName"`, in which case you have to specify the text after the @ sign.
     
-2.  `` - blah
-3.  `` - blah
+2.  `=` - The equal sign creates a 2-way binding.  This is a different type of poked hole.  We're still passing information to the directive via attributes, but we're saying the connection is a 2way binding and we can pass more than just text - we can pass whole objects.
+
+3.  `&` - Means poke a hold for a function.
+
+### @
 
 Say we want access to the person object we created above.  We go to the view where the directive is instantiated - in our case in _main.html_.  We add a custom attribute to the directive as it's instatiated:
 
@@ -269,3 +272,38 @@ Now, _personName_ is available in the directive's model/scope, for a specific vi
 ```
 
 Summary: I had an object (person) in a model ($scope) on a controller (mainController) pointing to a view (main.html).  I was able to pass that object via a custom attribute (person-name) in the view to my directive (searchResult).  And in the directive's isolated scope, we add a property (personName) that expects that object as text ("@").  And now we use the directive's scope variable personName in the directive's template.
+
+### =
+
+The equal sign lets us pass a whole object to a directive.  But it's 2-way binding, so we have to be careful.  Looks like this:
+
+```
+<h3>Search Results:</h3>
+<div class="list-group">
+    <search-result person-object="person"></search-result>
+</div>
+```
+
+```javascript
+myApp.directive('searchResult', function() {
+    return {
+        restrict: 'AE',
+        templateUrl: 'directives/searchresults.html',
+        replace: true,
+        scope: {
+            personObject: "="
+        }
+    }
+});
+```
+
+```
+<a href="#" class="list-group-item">
+    <h4 class="list-group-item-heading"> {{ personObject.name }} </h4>
+    <p class="list-group-item-text">
+        {{ personObject.address }}
+    </p>
+</a>
+```
+
+### &
