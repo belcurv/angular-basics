@@ -89,25 +89,10 @@ myApp.directive('searchResult', function() {
         templateUrl: 'directives/searchresult.html',
         replace: true,
         scope: {
-<<<<<<< HEAD
-            personObject: "="
-=======
             personObject: "=",
             formattedAddressFunction: "&"
         },
-        link: function(scope, elements, attrs) {
-
-            console.log('linking...');
-            console.log(scope);   // output scope object to console
-
-            if (scope.personObject.name == 'Jane Doe') {
-                elements.removeAttr('class');
-            }
-
-            console.log(elements);
-
->>>>>>> 3c76dc3573e61f7a19dcd3ebffe1840da0fa6161
-        }
+        transclude: true
             
     }
 });

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en-us" ng-app="weatherApp">
+    <head>
+        <title>Learn and Understand AngularJS</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta charset="utf-8">
+        
+        <!-- Load bootstrap and fontawesome via CDN -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+        
+        <!-- Load Angular modules -->
+        <script src="https://code.angularjs.org/1.5.0/angular.min.js"></script>
+        <script src="https://code.angularjs.org/1.5.0/angular-route.min.js"></script>
+        <script src="https://code.angularjs.org/1.5.0/angular-resource.min.js"></script>
+        
+        <!-- Load our javascript  -->
+        <script src="app.js"></script>
+    </head>
+
+    <body>
+        
+        <header>
+            <nav class="navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/">AngularJS Weather</a>
+                    </div>
+                    
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#/">Home</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        
+        <div class="container">
+            
+            <div ng-view></div>
+        
+        </div>
+    
+    </body>
+</html>
