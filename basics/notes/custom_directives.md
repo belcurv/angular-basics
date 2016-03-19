@@ -307,3 +307,5 @@ myApp.directive('searchResult', function() {
 ```
 
 ### &
+
+Used to pass a function.

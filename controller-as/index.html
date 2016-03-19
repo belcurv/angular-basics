@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us" ng-app="weatherApp">
+<html lang="en-us" ng-app="myApp">
     <head>
         <title>Learn and Understand AngularJS</title>
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -10,15 +10,11 @@
         
         <!-- Load Angular modules -->
         <script src="https://code.angularjs.org/1.5.0/angular.min.js"></script>
-        <script src="https://code.angularjs.org/1.5.0/angular-route.min.js"></script>
-        <script src="https://code.angularjs.org/1.5.0/angular-resource.min.js"></script>
+<!--    <script src="https://code.angularjs.org/1.5.0/angular-route.min.js"></script>-->
+<!--    <script src="https://code.angularjs.org/1.5.0/angular-resource.min.js"></script>-->
         
         <!-- Load our javascript  -->
         <script src="app.js"></script>
-        <script src="routes.js"></script>
-        <script src="services.js"></script>
-        <script src="controllers.js"></script>
-        <script src="directives.js"></script>
 
     </head>
 
@@ -28,7 +24,7 @@
             <nav class="navbar navbar-default">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="/">AngularJS Weather</a>
+                        <a class="navbar-brand" href="/">AngularJS</a>
                     </div>
                     
                     <ul class="nav navbar-nav navbar-right">
@@ -40,7 +36,27 @@
         
         <div class="container">
             
-            <div ng-view></div>
+            <div ng-controller="parent1Controller">
+                {{ parent1vm.message }}
+                <div ng-controller="child1Controller">
+                    {{ parent1vm.message }}
+                    <br />
+                    {{ child1vm.message }}
+                </div>
+            </div>
+            
+            <hr />
+            
+             <div ng-controller="parent2Controller as parent2vm">
+                {{ parent2vm.message }}
+                <div ng-controller="child2Controller as child2vm">
+                    {{ parent2vm.message }}
+                    <br />
+                    {{ child2vm.message }}
+                    <br />
+                    <input type="text" ng-model="parent2vm.message" />
+                </div>
+            </div>
         
         </div>
     
